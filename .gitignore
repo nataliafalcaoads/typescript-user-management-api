@@ -1,0 +1,26 @@
+
+# Dependências
+node_modules/
+
+# Arquivos compilados
+dist/
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cobertura de testes
+coverage/
+
+# Configurações locais
+.vscode/
+.idea/
+
+# Arquivos temporários
+tmp/
+temp/
