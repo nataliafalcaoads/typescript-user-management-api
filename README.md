@@ -111,7 +111,9 @@ npm start
 | GET | /users/:id | Consultar a própria conta |
 | PUT | /users/:id | Atualizar a própria conta |
 | DELETE | /users/:id | Excluir a própria conta |
-| PATCH | /users/me/password | Alterar a própria senha |
+| PATCH | /users/me/password | Alterar a própria senha do usuário autenticado |
+| PATCH | /users/:id/password | Alterar a própria senha pelo ID, com autenticação JWT e verificação de propriedade da conta |
+
 
 As rotas protegidas exigem o cabeçalho:
 

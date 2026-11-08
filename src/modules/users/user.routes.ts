@@ -2,47 +2,74 @@
 import { Router } from "express";
 
 import { requireAuth } from "../../middlewares/auth.middleware.js";
-
 import { requireSelf } from "../../middlewares/ownership.middleware.js";
 
-import { passwordController } from "./password.controller.js";
-
 import { userController } from "./user.controller.js";
+import { passwordController } from "./password.controller.js";
 
 const userRoutes = Router();
 
-// ROTA PUBLICA
+// ========================================
+// ROTAS PÚBLICAS
+// ========================================
 
-// Cadastrar usuario
+// Cadastrar usuário
 userRoutes.post("/", userController.create);
 
-// EXIGIR AUTENTICACAO NAS ROTAS ABAIXO
+// ========================================
+// AUTENTICAÇÃO OBRIGATÓRIA
+// ========================================
+
 userRoutes.use(requireAuth);
 
-// Alterar a senha da propria conta
+// ========================================
+// ALTERAÇÃO DE SENHA
+// ========================================
+
+// Alterar a própria senha usando /me
 userRoutes.patch(
   "/me/password",
   passwordController.changePassword
 );
 
-// Listar usuarios com paginacao
+// Alterar a própria senha usando o ID
+// Bloqueia alterações na conta de terceiros
+userRoutes.patch(
+  "/:id/password",
+  requireSelf,
+  passwordController.changePassword
+);
+
+// ========================================
+// CONSULTA DE USUÁRIOS
+// ========================================
+
+// Listar usuários com paginação
 userRoutes.get("/", userController.list);
 
-// Consultar somente a propria conta
+// Consultar somente a própria conta
 userRoutes.get(
   "/:id",
   requireSelf,
   userController.findById
 );
 
-// Atualizar somente a propria conta
+// ========================================
+// ATUALIZAÇÃO DE USUÁRIOS
+// ========================================
+
+// Atualizar somente a própria conta
 userRoutes.put(
   "/:id",
   requireSelf,
   userController.update
 );
 
-// Excluir somente a propria conta
+// ========================================
+// EXCLUSÃO DE USUÁRIOS
+// ========================================
+
+// Excluir somente a própria conta
 userRoutes.delete(
   "/:id",
   requireSelf,
